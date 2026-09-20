@@ -27,7 +27,7 @@ function Home() {
           </Link>
 
           <a
-            href="https://github.com/"
+            href="https://github.com/Oscarorigenefernandez/Cyber-security-"
             target="_blank"
             rel="noreferrer"
             className="secondary-button"
@@ -82,7 +82,7 @@ function Home() {
         </p>
 
         <a
-          href="https://github.com/"
+          href="https://github.com/Oscarorigenefernandez/Cyber-security-"
           target="_blank"
           rel="noreferrer"
           className="primary-button"
