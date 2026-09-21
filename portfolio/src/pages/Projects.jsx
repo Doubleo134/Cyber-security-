@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function Projects() {
   const projects = [
     {
@@ -22,6 +24,14 @@ function Projects() {
       technologies: ["Python", "SHA-256", "File Security"],
     },
   ];
+  const filters = ["All", "Python", "Networking", "File Security"];
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const visibleProjects = projects.filter(
+    (project) =>
+      activeFilter === "All" || project.technologies.includes(activeFilter),
+  );
 
   return (
     <main className="section">
@@ -34,9 +44,27 @@ function Projects() {
         while developing practical security skills.
       </p>
 
+      <div className="project-filters" aria-label="Filter projects">
+        {filters.map((filter) => (
+          <button
+            className={activeFilter === filter ? "is-active" : ""}
+            key={filter}
+            type="button"
+            onClick={() => setActiveFilter(filter)}
+          >
+            {filter}
+          </button>
+        ))}
+      </div>
+
       <div className="project-grid">
-        {projects.map((project) => (
-          <article className="project-card" key={project.id}>
+        {visibleProjects.map((project, index) => (
+          <button
+            className="project-card"
+            key={project.id}
+            type="button"
+            onClick={() => setSelectedProject(project)}
+          >
             <div className="project-number">PROJECT</div>
 
             <h3>{project.title}</h3>
@@ -48,9 +76,39 @@ function Projects() {
                 <span key={technology}>{technology}</span>
               ))}
             </div>
-          </article>
+            <span className="project-action">Explore 0{index + 1} ↗</span>
+          </button>
         ))}
       </div>
+
+      {selectedProject && (
+        <div className="project-modal" role="presentation" onClick={() => setSelectedProject(null)}>
+          <article
+            className="project-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-dialog-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              className="modal-close"
+              type="button"
+              aria-label="Close project details"
+              onClick={() => setSelectedProject(null)}
+            >
+              ×
+            </button>
+            <p className="section-label">PROJECT DETAILS</p>
+            <h2 id="project-dialog-title">{selectedProject.title}</h2>
+            <p className="section-text">{selectedProject.description}</p>
+            <div className="project-tags">
+              {selectedProject.technologies.map((technology) => (
+                <span key={technology}>{technology}</span>
+              ))}
+            </div>
+          </article>
+        </div>
+      )}
     </main>
   );
 }

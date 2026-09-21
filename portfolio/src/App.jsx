@@ -1,6 +1,28 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  NavLink,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
 import Projects from "./pages/Projects";
+import Labs from "./pages/Labs";
+
+function ScrollToHash() {
+  const { hash, pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname !== "/" || !hash) return;
+
+    const target = document.querySelector(hash);
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [hash, pathname]);
+
+  return null;
+}
 
 function Home() {
   return (
@@ -26,14 +48,9 @@ function Home() {
             View Projects
           </Link>
 
-          <a
-            href="https://github.com/Oscarorigenefernandez/Cyber-security-"
-            target="_blank"
-            rel="noreferrer"
-            className="secondary-button"
-          >
-            GitHub ↗
-          </a>
+          <Link to="/labs" className="secondary-button">
+            Enter Cyber Labs ↗
+          </Link>
         </div>
       </section>
 
@@ -95,26 +112,88 @@ function Home() {
 }
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <BrowserRouter>
       <div className="site">
         <nav className="navbar">
-          <Link to="/" className="logo">
+          <Link
+            to="/"
+            className="logo"
+            onClick={() => setMenuOpen(false)}
+          >
             OSCAR<span>.</span>
           </Link>
 
-          <div className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/#about">About</Link>
-            <Link to="/projects">Projects</Link>
-            <Link to="/#skills">Skills</Link>
-            <Link to="/#contact">Contact</Link>
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls="site-navigation"
+            onClick={() => setMenuOpen((isOpen) => !isOpen)}
+          >
+            <span />
+            <span />
+            <span />
+            <span className="sr-only">Toggle navigation</span>
+          </button>
+
+          <div
+            id="site-navigation"
+            className={`nav-links ${menuOpen ? "is-open" : ""}`}
+          >
+            <NavLink
+              to="/"
+              end
+              onClick={() => setMenuOpen(false)}
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/#about"
+              onClick={() => setMenuOpen(false)}
+            >
+              About
+            </NavLink>
+
+            <NavLink
+              to="/projects"
+              onClick={() => setMenuOpen(false)}
+            >
+              Projects
+            </NavLink>
+
+            <NavLink
+              to="/labs"
+              onClick={() => setMenuOpen(false)}
+            >
+              Labs
+            </NavLink>
+
+            <NavLink
+              to="/#skills"
+              onClick={() => setMenuOpen(false)}
+            >
+              Skills
+            </NavLink>
+
+            <NavLink
+              to="/#contact"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+            </NavLink>
           </div>
         </nav>
+
+        <ScrollToHash />
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/labs" element={<Labs />} />
         </Routes>
 
         <footer>

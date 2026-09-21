@@ -1,26 +1,28 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import Projects from "./pages/Projects";
 import Labs from "./pages/Labs";
 
 function Home() {
   return (
-    <>
-      <main>
-        <section className="hero">
+    <main>
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-content">
           <p className="eyebrow">CYBERSECURITY PORTFOLIO</p>
 
           <h1>
-            Building systems.
+            I build.
             <br />
-            Breaking problems.
+            I learn.
             <br />
-            <span>Securing technology.</span>
+            <span>I secure.</span>
           </h1>
 
           <p className="hero-text">
-            I'm Oscar, a cybersecurity student focused on defensive
-            security, Python, networking, and hands-on security projects.
+            I'm Oscar, a cybersecurity student building practical
+            security tools, learning Python and networking, and
+            exploring defensive cybersecurity.
           </p>
 
           <div className="hero-buttons">
@@ -28,78 +30,164 @@ function Home() {
               View Projects
             </Link>
 
-            <a
-              href="https://github.com/Oscarorigenefernandez/Cyber-security-"
-              target="_blank"
-              rel="noreferrer"
-              className="secondary-button"
-            >
-              GitHub ↗
-            </a>
+            <Link to="/labs" className="secondary-button">
+              Enter Cyber Labs →
+            </Link>
           </div>
-        </section>
+        </div>
 
-        <section id="about" className="section">
-          <p className="section-label">01 — ABOUT</p>
-
-          <h2>
-            Learning cybersecurity
-            <br />
-            by building.
-          </h2>
-
-          <p className="section-text">
-            I'm developing my cybersecurity skills through hands-on
-            projects and security labs. My current focus includes
-            Python programming, networking, Linux, and defensive
-            security concepts.
-          </p>
-        </section>
-
-        <section id="skills" className="section">
-          <p className="section-label">02 — SKILLS</p>
-
-          <h2>Current toolkit.</h2>
-
-          <div className="skills-grid">
-            <div>Python</div>
-            <div>JavaScript</div>
-            <div>React</div>
-            <div>Networking</div>
-            <div>Linux</div>
-            <div>Git &amp; GitHub</div>
-            <div>TCP/IP</div>
-            <div>Cybersecurity</div>
+        <div className="hero-terminal">
+          <div className="terminal-header">
+            <span>●</span>
+            <span>●</span>
+            <span>●</span>
+            <p>oscar@cyberlab:~</p>
           </div>
-        </section>
 
-        <section id="contact" className="section contact">
-          <p className="section-label">03 — CONTACT</p>
+          <div className="terminal-body">
+            <p>
+              <span className="terminal-green">$</span> whoami
+            </p>
 
-          <h2>Let's connect.</h2>
+            <p className="terminal-output">
+              cybersecurity_student
+            </p>
 
-          <p className="section-text">
-            I'm interested in cybersecurity, technology, and
-            opportunities to continue developing my skills.
-          </p>
+            <p>
+              <span className="terminal-green">$</span> focus
+            </p>
 
-          <a
-            href="https://github.com/Oscarorigenefernandez/Cyber-security-"
-            target="_blank"
-            rel="noreferrer"
-            className="primary-button"
-          >
-            GitHub ↗
-          </a>
-        </section>
-      </main>
-    </>
+            <p className="terminal-output">
+              Python • Networking • Defensive Security
+            </p>
+
+            <p>
+              <span className="terminal-green">$</span>{" "}
+              status
+            </p>
+
+            <p className="terminal-output">
+              <span className="online">● ONLINE</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="section">
+        <p className="section-label">01 — ABOUT</p>
+
+        <h2>
+          Learning cybersecurity
+          <br />
+          by building.
+        </h2>
+
+        <p className="section-text">
+          I'm developing my cybersecurity skills through hands-on
+          projects and security labs. I'm especially interested in
+          Python, networking, Linux, defensive security, and
+          understanding how technology can be protected.
+        </p>
+      </section>
+
+      {/* SKILLS */}
+      <section id="skills" className="section">
+        <p className="section-label">02 — SKILLS</p>
+
+        <h2>Current toolkit.</h2>
+
+        <div className="skills-grid">
+          <div>
+            <strong>Python</strong>
+            <span>Scripting & Security Tools</span>
+          </div>
+
+          <div>
+            <strong>Networking</strong>
+            <span>TCP/IP & Network Concepts</span>
+          </div>
+
+          <div>
+            <strong>Linux</strong>
+            <span>Command Line & Systems</span>
+          </div>
+
+          <div>
+            <strong>Git</strong>
+            <span>Version Control</span>
+          </div>
+
+          <div>
+            <strong>JavaScript</strong>
+            <span>Web Development</span>
+          </div>
+
+          <div>
+            <strong>React</strong>
+            <span>Frontend Development</span>
+          </div>
+
+          <div>
+            <strong>Cybersecurity</strong>
+            <span>Defensive Security</span>
+          </div>
+
+          <div>
+            <strong>Security Labs</strong>
+            <span>Hands-on Practice</span>
+          </div>
+        </div>
+      </section>
+
+      {/* LAB PREVIEW */}
+      <section className="section lab-preview">
+        <p className="section-label">03 — CYBER LABS</p>
+
+        <h2>
+          Don't just read.
+          <br />
+          <span>Interact.</span>
+        </h2>
+
+        <p className="section-text">
+          Experiment with interactive cybersecurity challenges
+          designed to demonstrate security concepts in a safe
+          environment.
+        </p>
+
+        <Link to="/labs" className="primary-button">
+          Explore Cyber Labs →
+        </Link>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact" className="section contact">
+        <p className="section-label">04 — CONTACT</p>
+
+        <h2>Let's connect.</h2>
+
+        <p className="section-text">
+          I'm interested in cybersecurity, technology, and
+          opportunities to continue developing my skills.
+        </p>
+
+        <a
+          href="https://github.com/Oscarorigenefernandez/Cyber-security-"
+          target="_blank"
+          rel="noreferrer"
+          className="primary-button"
+        >
+          View My GitHub →
+        </a>
+      </section>
+    </main>
   );
 }
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="site">
         <nav className="navbar">
           <Link to="/" className="logo">
@@ -127,7 +215,7 @@ function App() {
           <p>Cybersecurity Portfolio</p>
         </footer>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
