@@ -1,194 +1,390 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  BrowserRouter,
+  HashRouter,
   Routes,
   Route,
   Link,
-  NavLink,
   useLocation,
 } from "react-router-dom";
 import "./App.css";
 import Projects from "./pages/Projects";
 import Labs from "./pages/Labs";
 
-function ScrollToHash() {
-  const { hash, pathname } = useLocation();
+const skills = [
+  ["Python", "Security scripting & automation"],
+  ["Networking", "TCP/IP & network fundamentals"],
+  ["Linux", "Systems & command line"],
+  ["Git", "Version control & collaboration"],
+  ["JavaScript", "Interactive web development"],
+  ["React", "Frontend applications"],
+  ["Cybersecurity", "Defensive security concepts"],
+  ["Security Labs", "Hands-on experimentation"],
+];
 
-  useEffect(() => {
-    if (pathname !== "/" || !hash) return;
+function Terminal() {
+  const [input, setInput] = useState("");
+  const [history, setHistory] = useState([
+    "Oscar Cyber Terminal v1.0",
+    "Type 'help' to see available commands.",
+  ]);
 
-    const target = document.querySelector(hash);
-    target?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [hash, pathname]);
+  function handleCommand(event) {
+    event.preventDefault();
 
-  return null;
+    const command = input.trim().toLowerCase();
+
+    if (!command) return;
+
+    let response;
+
+    switch (command) {
+      case "help":
+        response =
+          "Available: about • projects • skills • labs • status • clear";
+        break;
+
+      case "about":
+        response =
+          "Oscar — cybersecurity student focused on Python, networking, Linux and defensive security.";
+        break;
+
+      case "projects":
+        response =
+          "Password Checker • Network Scanner • File Integrity Monitor";
+        break;
+
+      case "skills":
+        response =
+          "Python • Networking • Linux • Git • JavaScript • React";
+        break;
+
+      case "labs":
+        response =
+          "Interactive security experiments are available in Cyber Labs.";
+        break;
+
+      case "status":
+        response = "SYSTEM STATUS: ONLINE";
+        break;
+
+      case "clear":
+        setHistory([]);
+        setInput("");
+        return;
+
+      default:
+        response = `Command not found: ${command}`;
+    }
+
+    setHistory((previous) => [
+      ...previous,
+      `$ ${command}`,
+      response,
+    ]);
+
+    setInput("");
+  }
+
+  return (
+    <div className="terminal">
+      <div className="terminal-top">
+        <div className="terminal-dots">
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <p>oscar@cyberlab</p>
+      </div>
+
+      <div className="terminal-content">
+        {history.map((line, index) => (
+          <p
+            key={`${line}-${index}`}
+            className={line.startsWith("$") ? "command" : ""}
+          >
+            {line}
+          </p>
+        ))}
+
+        <form onSubmit={handleCommand} className="terminal-form">
+          <span>$</span>
+
+          <input
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            aria-label="Terminal command"
+            autoComplete="off"
+            spellCheck="false"
+          />
+        </form>
+      </div>
+    </div>
+  );
 }
 
 function Home() {
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
   return (
-    <>
-      <section className="hero">
-        <p className="eyebrow">CYBERSECURITY PORTFOLIO</p>
+    <main>
+      {/* HERO */}
 
-        <h1>
-          Building systems.
-          <br />
-          Breaking problems.
-          <br />
-          <span>Securing technology.</span>
-        </h1>
+      <section className="hero-new">
+        <div className="hero-left">
+          <p className="eyebrow">01 / CYBERSECURITY STUDENT</p>
 
-        <p className="hero-text">
-          I'm Oscar, a cybersecurity student focused on defensive
-          security, Python, networking, and hands-on security projects.
-        </p>
+          <h1>
+            Building
+            <br />
+            <span>security</span>
+            <br />
+            through code.
+          </h1>
 
-        <div className="hero-buttons">
-          <Link to="/projects" className="primary-button">
-            View Projects
-          </Link>
+          <p className="hero-description">
+            I'm Oscar. I build practical cybersecurity projects while
+            developing skills in Python, networking, Linux and defensive
+            security.
+          </p>
 
-          <Link to="/labs" className="secondary-button">
-            Enter Cyber Labs ↗
-          </Link>
+          <div className="hero-actions">
+            <Link to="/projects" className="button-primary">
+              Explore Projects →
+            </Link>
+
+            <Link to="/labs" className="button-secondary">
+              Enter Cyber Labs
+            </Link>
+          </div>
+        </div>
+
+        <Terminal />
+      </section>
+
+      {/* ABOUT */}
+
+      <section id="about" className="new-section">
+        <div className="section-heading">
+          <p>02 / ABOUT</p>
+          <span>01</span>
+        </div>
+
+        <div className="about-grid">
+          <h2>
+            Learn by
+            <br />
+            <span>building.</span>
+          </h2>
+
+          <p>
+            My approach to cybersecurity is hands-on. Instead of only
+            studying concepts, I'm building tools, experimenting in
+            controlled environments and documenting what I learn.
+          </p>
         </div>
       </section>
 
-      <section id="about" className="section">
-        <p className="section-label">01 — ABOUT</p>
+      {/* PROJECTS */}
 
-        <h2>
-          Learning cybersecurity
+      <section id="projects" className="new-section">
+        <div className="section-heading">
+          <p>03 / PROJECTS</p>
+          <span>02</span>
+        </div>
+
+        <div className="feature-grid">
+          <div className="feature-card">
+            <span>01</span>
+
+            <h3>Password Security Checker</h3>
+
+            <p>
+              Python tool that evaluates password strength and identifies
+              common weaknesses.
+            </p>
+
+            <Link to="/projects">Explore →</Link>
+          </div>
+
+          <div className="feature-card featured">
+            <span>02</span>
+
+            <h3>Network Security Scanner</h3>
+
+            <p>
+              Authorized local security scanner for checking common TCP
+              ports.
+            </p>
+
+            <Link to="/projects">Explore →</Link>
+          </div>
+
+          <div className="feature-card">
+            <span>03</span>
+
+            <h3>File Integrity Monitor</h3>
+
+            <p>
+              Cryptographic hashing project designed to detect file
+              modifications.
+            </p>
+
+            <Link to="/projects">Explore →</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CYBER LABS */}
+
+      <section className="lab-section">
+        <div>
+          <p className="eyebrow">04 / INTERACTIVE</p>
+
+          <h2>
+            Welcome to
+            <br />
+            <span>Cyber Labs.</span>
+          </h2>
+
+          <p>
+            Don't just look at a portfolio. Test your security knowledge
+            with interactive experiments.
+          </p>
+
+          <Link to="/labs" className="button-primary">
+            Enter The Labs →
+          </Link>
+        </div>
+
+        <div className="lab-symbol">
+          <div className="crosshair">+</div>
+
+          <p>SECURE</p>
+          <p>LEARN</p>
+          <p>BUILD</p>
+        </div>
+      </section>
+
+      {/* SKILLS */}
+
+      <section id="skills" className="new-section">
+        <div className="section-heading">
+          <p>05 / SKILLS</p>
+          <span>03</span>
+        </div>
+
+        <h2 className="skills-title">
+          Current
           <br />
-          by building.
+          <span>toolkit.</span>
         </h2>
 
-        <p className="section-text">
-          I'm developing my cybersecurity skills through hands-on
-          projects and security labs. My current focus includes
-          Python programming, networking, Linux, and defensive
-          security concepts.
-        </p>
-      </section>
+        <div className="interactive-skills">
+          {skills.map(([name, description], index) => (
+            <button
+              key={name}
+              type="button"
+              className={`skill-row ${
+                selectedSkill === index ? "selected" : ""
+              }`}
+              onClick={() =>
+                setSelectedSkill(
+                  selectedSkill === index ? null : index
+                )
+              }
+            >
+              <span>0{index + 1}</span>
 
-      <section id="skills" className="section">
-        <p className="section-label">02 — SKILLS</p>
+              <strong>{name}</strong>
 
-        <h2>Current toolkit.</h2>
+              <small>
+                {selectedSkill === index
+                  ? description
+                  : "Click to explore"}
+              </small>
 
-        <div className="skills-grid">
-          <div>Python</div>
-          <div>JavaScript</div>
-          <div>React</div>
-          <div>Networking</div>
-          <div>Linux</div>
-          <div>Git &amp; GitHub</div>
-          <div>TCP/IP</div>
-          <div>Cybersecurity</div>
+              <b>{selectedSkill === index ? "−" : "+"}</b>
+            </button>
+          ))}
         </div>
       </section>
 
-      <section id="contact" className="section contact">
-        <p className="section-label">03 — CONTACT</p>
+      {/* CONTACT */}
 
-        <h2>Let's connect.</h2>
+      <section id="contact" className="new-section contact-new">
+        <p className="eyebrow">06 / CONTACT</p>
 
-        <p className="section-text">
-          I'm interested in cybersecurity, technology, and
-          opportunities to continue developing my skills.
-        </p>
+        <h2>
+          Let's build
+          <br />
+          something <span>secure.</span>
+        </h2>
 
         <a
           href="https://github.com/Oscarorigenefernandez/Cyber-security-"
           target="_blank"
           rel="noreferrer"
-          className="primary-button"
+          className="button-primary"
         >
-          GitHub ↗
+          GitHub →
         </a>
       </section>
-    </>
+    </main>
+  );
+}
+
+function Navigation() {
+  const location = useLocation();
+
+  return (
+    <nav className="new-navbar">
+      <Link to="/" className="new-logo">
+        OSCAR<span>.</span>
+      </Link>
+
+      <div className="new-nav-links">
+        <Link
+          className={location.pathname === "/" ? "active" : ""}
+          to="/"
+        >
+          Home
+        </Link>
+
+        <a href="#about">About</a>
+
+        <Link
+          className={location.pathname === "/projects" ? "active" : ""}
+          to="/projects"
+        >
+          Projects
+        </Link>
+
+        <Link
+          className={location.pathname === "/labs" ? "active" : ""}
+          to="/labs"
+        >
+          Labs
+        </Link>
+
+        <a href="#skills">Skills</a>
+
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div className="nav-status">
+        <span />
+        ONLINE
+      </div>
+    </nav>
   );
 }
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
-    <BrowserRouter>
-      <div className="site">
-        <nav className="navbar">
-          <Link
-            to="/"
-            className="logo"
-            onClick={() => setMenuOpen(false)}
-          >
-            OSCAR<span>.</span>
-          </Link>
-
-          <button
-            className="menu-toggle"
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="site-navigation"
-            onClick={() => setMenuOpen((isOpen) => !isOpen)}
-          >
-            <span />
-            <span />
-            <span />
-            <span className="sr-only">Toggle navigation</span>
-          </button>
-
-          <div
-            id="site-navigation"
-            className={`nav-links ${menuOpen ? "is-open" : ""}`}
-          >
-            <NavLink
-              to="/"
-              end
-              onClick={() => setMenuOpen(false)}
-            >
-              Home
-            </NavLink>
-
-            <NavLink
-              to="/#about"
-              onClick={() => setMenuOpen(false)}
-            >
-              About
-            </NavLink>
-
-            <NavLink
-              to="/projects"
-              onClick={() => setMenuOpen(false)}
-            >
-              Projects
-            </NavLink>
-
-            <NavLink
-              to="/labs"
-              onClick={() => setMenuOpen(false)}
-            >
-              Labs
-            </NavLink>
-
-            <NavLink
-              to="/#skills"
-              onClick={() => setMenuOpen(false)}
-            >
-              Skills
-            </NavLink>
-
-            <NavLink
-              to="/#contact"
-              onClick={() => setMenuOpen(false)}
-            >
-              Contact
-            </NavLink>
-          </div>
-        </nav>
-
-        <ScrollToHash />
+    <HashRouter>
+      <div className="new-site">
+        <Navigation />
 
         <Routes>
           <Route path="/" element={<Home />} />
@@ -196,12 +392,12 @@ function App() {
           <Route path="/labs" element={<Labs />} />
         </Routes>
 
-        <footer>
-          <p>© 2026 Oscar</p>
-          <p>Cybersecurity Portfolio</p>
+        <footer className="new-footer">
+          <p>OSCAR. / CYBERSECURITY</p>
+          <p>© 2026</p>
         </footer>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
