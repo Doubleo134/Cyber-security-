@@ -1,116 +1,92 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+
+const projects = [
+  {
+    id: "password-checker",
+    title: "Password Security Checker",
+    description:
+      "A Python tool that evaluates password strength and identifies common weaknesses.",
+    technologies: ["Python", "Security"],
+    github:
+      "https://github.com/Oscarorigenefernandez/Cyber-security-/blob/main/cybersecurity/project1/password_checker.py",
+  },
+  {
+    id: "network-scanner",
+    title: "Network Security Scanner",
+    description:
+      "A Python tool that checks common TCP ports on an authorized local target.",
+    technologies: ["Python", "Networking", "TCP/IP"],
+    github:
+      "https://github.com/Oscarorigenefernandez/Cyber-security-/blob/main/scripts/network_scanner.py",
+  },
+  {
+    id: "file-integrity-monitor",
+    title: "File Integrity Monitor",
+    description:
+      "A security project using cryptographic hashing to detect file changes.",
+    technologies: ["Python", "SHA-256", "File Security"],
+    github:
+      "https://github.com/Oscarorigenefernandez/Cyber-security-/blob/main/cybersecurity/file_integrity_monitor.py",
+  },
+];
 
 function Projects() {
-  const projects = [
-    {
-      id: "password-checker",
-      title: "Password Security Checker",
-      description:
-        "A Python-based security tool that evaluates password strength and identifies common weaknesses.",
-      technologies: ["Python", "Security"],
-    },
-    {
-      id: "network-scanner",
-      title: "Network Security Scanner",
-      description:
-        "A Python-based scanner that checks common TCP ports on an authorized local target.",
-      technologies: ["Python", "Networking", "TCP/IP"],
-    },
-    {
-      id: "file-integrity-monitor",
-      title: "File Integrity Monitor",
-      description:
-        "A security tool that uses cryptographic hashing to detect changes to files.",
-      technologies: ["Python", "SHA-256", "File Security"],
-    },
-  ];
-  const filters = ["All", "Python", "Networking", "File Security"];
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedProject, setSelectedProject] = useState(null);
-
-  const visibleProjects = projects.filter(
-    (project) =>
-      activeFilter === "All" || project.technologies.includes(activeFilter),
-  );
-
   return (
-    <main className="section">
-      <p className="section-label">PROJECTS</p>
-
-      <h1>Security projects.</h1>
-
-      <p className="section-text">
-        A collection of cybersecurity tools and experiments built
-        while developing practical security skills.
-      </p>
-
-      <div className="project-filters" aria-label="Filter projects">
-        {filters.map((filter) => (
-          <button
-            className={activeFilter === filter ? "is-active" : ""}
-            key={filter}
-            type="button"
-            onClick={() => setActiveFilter(filter)}
-          >
-            {filter}
-          </button>
-        ))}
+    <main className="new-section">
+      <div className="section-heading">
+        <p>PROJECTS / SECURITY WORK</p>
+        <span>03</span>
       </div>
 
-      <div className="project-grid">
-        {visibleProjects.map((project, index) => (
-          <button
-            className="project-card"
+      <h1 className="skills-title">
+        Built to
+        <br />
+        <span>learn.</span>
+      </h1>
+
+      <p className="hero-description">
+        Cybersecurity projects built while developing practical skills in
+        Python, networking, Linux, and defensive security.
+      </p>
+
+      <div
+        className="feature-grid"
+        style={{ marginTop: "60px" }}
+      >
+        {projects.map((project) => (
+          <article
+            className="feature-card"
             key={project.id}
-            type="button"
-            onClick={() => setSelectedProject(project)}
           >
-            <div className="project-number">PROJECT</div>
+            <span>PROJECT</span>
 
             <h3>{project.title}</h3>
 
             <p>{project.description}</p>
 
-            <div className="project-tags">
-              {project.technologies.map((technology) => (
-                <span key={technology}>{technology}</span>
-              ))}
-            </div>
-            <span className="project-action">Explore 0{index + 1} ↗</span>
-          </button>
-        ))}
-      </div>
+            <div className="hero-actions">
+              <Link
+                to={`/projects/${project.id}`}
+                className="button-secondary"
+              >
+                View Details →
+              </Link>
 
-      {selectedProject && (
-        <div className="project-modal" role="presentation" onClick={() => setSelectedProject(null)}>
-          <article
-            className="project-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="project-dialog-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              className="modal-close"
-              type="button"
-              aria-label="Close project details"
-              onClick={() => setSelectedProject(null)}
-            >
-              ×
-            </button>
-            <p className="section-label">PROJECT DETAILS</p>
-            <h2 id="project-dialog-title">{selectedProject.title}</h2>
-            <p className="section-text">{selectedProject.description}</p>
-            <div className="project-tags">
-              {selectedProject.technologies.map((technology) => (
-                <span key={technology}>{technology}</span>
-              ))}
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                className="button-primary"
+              >
+                Source Code →
+              </a>
             </div>
           </article>
-        </div>
-      )}
+        ))}
+      </div>
     </main>
   );
 }
 
+export { projects };
 export default Projects;
